@@ -1,4 +1,4 @@
-package com.example.carros.domain;
+package com.example.carros.Model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,7 +30,7 @@ public class Carro {
 		
 	}
 	
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 	public void setId(int id) {

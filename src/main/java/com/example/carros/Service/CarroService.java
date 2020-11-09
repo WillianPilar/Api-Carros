@@ -1,5 +1,6 @@
 package com.example.carros.Service;
 
+import java.util.List;
 //import java.util.ArrayList;
 //import java.util.List;
 import java.util.Optional;
@@ -7,9 +8,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
+import com.example.carros.Model.Carro;
 import com.example.carros.Reoisitory.CarroRepository;
-import com.example.carros.domain.Carro;
 
 @Service
 public class CarroService {
@@ -25,7 +25,7 @@ public class CarroService {
 		return this.carroRepository.findById(id);
 	}
 	
-	public Iterable<Carro> getCarroByTipo(String tipo){
+	public List<Carro> getCarroByTipo(String tipo){
 		return this.carroRepository.findAllByTipo(tipo);
 	}
 
@@ -53,6 +53,18 @@ public class CarroService {
 		
 		return update;
 	}
+
+	public String delete(int id) {
+		Optional<Carro> carro = carroRepository.findById(id);
+		if(carro.isPresent()) {
+			carroRepository.deleteById(id);
+		}else {
+			return "Carro não existe!";
+		}
+		return "Carro de ID " + id + " deletado com sucesso!";
+	}
+		
+
 	
 	
 	//DIDÁTICO
@@ -65,4 +77,5 @@ public class CarroService {
 //			
 //		return carros;
 //	}
+
 }
