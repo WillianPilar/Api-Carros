@@ -4,10 +4,12 @@ import java.util.List;
 //import java.util.ArrayList;
 //import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.carros.DTO.CarroDTO;
 import com.example.carros.Model.Carro;
 import com.example.carros.Reoisitory.CarroRepository;
 
@@ -17,16 +19,23 @@ public class CarroService {
 	@Autowired
 	private CarroRepository carroRepository;
 	
-	public Iterable<Carro> getAllCarros(){
-		return this.carroRepository.findAll();
+	public List<CarroDTO> getAllCarros(){
+		 
+		return this.carroRepository.findAll().stream().map(CarroDTO :: create).collect(Collectors.toList());
+		//findAll() -- Retorna Lista de carros
+		//.stream() -- Chama para mapear a lista com o .map() que percorre todo o CarroDTO e cria NEW carros
+		//.colect(Collectors.toList()); -- Gera uma nova lista de CarrosDTO
 	}
 	
 	public Optional<Carro> getCarroById(int id){
 		return this.carroRepository.findById(id);
+		
+		//return this.carroRepository.findById(id).map(CarroDTO :: new);
+		//Retorna do DTO se existir, caso contrário manda um optional
 	}
 	
-	public List<Carro> getCarroByTipo(String tipo){
-		return this.carroRepository.findAllByTipo(tipo);
+	public List<CarroDTO> getCarroByTipo(String tipo){
+		return this.carroRepository.findAllByTipo(tipo).stream().map(CarroDTO :: create).collect(Collectors.toList());
 	}
 
 	public Carro create(Carro carro) {

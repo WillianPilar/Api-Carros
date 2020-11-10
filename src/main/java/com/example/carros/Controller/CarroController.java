@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.carros.DTO.CarroDTO;
 import com.example.carros.Model.Carro;
 import com.example.carros.Service.CarroService;
 
@@ -31,20 +32,20 @@ public class CarroController {
 	private CarroService carroService;
 	
 	@GetMapping
-	public ResponseEntity<Iterable<Carro>> getCarro(){
+	public ResponseEntity<List<CarroDTO>> getCarro(){
 		return new ResponseEntity<>(carroService.getAllCarros(), HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/{id}")
-	public ResponseEntity getCarroById(@PathVariable("id") int id){
+	public ResponseEntity<Carro> getCarroById(@PathVariable("id") int id){
 		Optional<Carro> carro = carroService.getCarroById(id);
 		return carro.map(ResponseEntity :: ok) // Se tiver carro, retorna 200 OK
 				.orElse(ResponseEntity.notFound().build()); // Se não, retorna 404
 	}
 	
 	@GetMapping(value = "/tipo/{tipo}")
-	public ResponseEntity getCarroByTipo(@PathVariable("tipo") String tipo){
-		List<Carro> carro = carroService.getCarroByTipo(tipo);
+	public ResponseEntity <List<CarroDTO>>getCarroByTipo(@PathVariable("tipo") String tipo){
+		List<CarroDTO> carro = carroService.getCarroByTipo(tipo);
 		
 		return carro.isEmpty() ? // SE a lista de carro estiver vazia ...
 				ResponseEntity.noContent().build() : // Retorne 204 NoContent
