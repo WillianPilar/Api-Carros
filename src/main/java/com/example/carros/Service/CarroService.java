@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,13 +39,19 @@ public class CarroService {
 		return this.carroRepository.findAllByTipo(tipo).stream().map(CarroDTO :: create).collect(Collectors.toList());
 	}
 
-	public Carro create(Carro carro) {
+//	public Carro create(Carro carro) {
+//		
+//		return carroRepository.save(carro);
+//		
+//	}
+	
+	public CarroDTO create(Carro carro) {
 		
-		return carroRepository.save(carro);
+		return CarroDTO.create(carroRepository.save(carro)); // Salva o carro no repositório
 		
 	}
 
-	public Carro update(int id, Carro carro) {
+	public CarroDTO update(int id, Carro carro) {
 		
 		Optional<Carro> optionalCarro = this.carroRepository.findById(id);
 		Carro update = null;
@@ -58,19 +65,34 @@ public class CarroService {
 			
 			
 			update = this.carroRepository.save(update);
+			
+			return CarroDTO.create(update); // Transforma o update em CarroDTO
+		}else {
+			return null;
 		}
 		
-		return update;
+		
 	}
 
-	public String delete(int id) {
-		Optional<Carro> carro = carroRepository.findById(id);
-		if(carro.isPresent()) {
+//	public String delete(int id) {
+//		Optional<Carro> carro = carroRepository.findById(id);
+//		if(carro.isPresent()) {
+//			carroRepository.deleteById(id);
+//		}else {
+//			return "Carro não existe!";
+//		}
+//		return "Carro de ID " + id + " deletado com sucesso!";
+//	}
+	
+	public boolean delete(int id) {
+		//Optional<Carro> carro = carroRepository.findById(id);
+		
+		if(carroRepository.findById(id).isPresent()) {
 			carroRepository.deleteById(id);
+			return true;
 		}else {
-			return "Carro não existe!";
+			return false;
 		}
-		return "Carro de ID " + id + " deletado com sucesso!";
 	}
 		
 

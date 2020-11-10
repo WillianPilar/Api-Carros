@@ -14,8 +14,8 @@ public class CarroDTO {
 	private String tipo;
 	
 	public static CarroDTO create(Carro c) {
-		ModelMapper modelMapper = new ModelMapper();
-		return modelMapper.map(c, CarroDTO.class);
+		ModelMapper modelMapper = new ModelMapper();// Usado para criar os construtores DTO de forma automática 
+		return modelMapper.map(c, CarroDTO.class); //Transforma o carro que vir em DTO
 	}
 	
 
