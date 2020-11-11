@@ -1,7 +1,11 @@
 package com.example.carros.Exception;
 
 import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import java.nio.file.AccessDeniedException;
+
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -20,5 +24,20 @@ public class ExceptionConfig {
 	})
 	public ResponseEntity<?> badRequest(Exception ex){
 		return ResponseEntity.badRequest().build();
+	}
+	
+	@ExceptionHandler({
+		AccessDeniedException.class
+	})
+	public ResponseEntity<?> accessDenied() {
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new Error("Acesso NEGADO"));
+	}
+	
+	class Error{
+		public String error;
+		
+		public Error(String error) {
+			this.error = error;
+		}
 	}
 }
