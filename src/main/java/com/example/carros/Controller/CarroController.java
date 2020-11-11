@@ -59,18 +59,31 @@ public class CarroController {
 //		
 //	}
 	
-	@PostMapping
+//	@PostMapping
+//	public ResponseEntity<?> saveCarro(@RequestBody Carro carro) {
+//		
+//		try {
+//			CarroDTO c = carroService.create(carro); //Manda o CArro para o service para ser criado
+//			
+//			URI location = getUri(c.getId()); //Executa o método URI mandando o ID do carro que foi criado
+//			
+//			return ResponseEntity.created(location).build(); // Passa o cod 201 CREATED com a localização de acesso (URL) no HEADER
+//		}catch(Exception ex) {
+//			return ResponseEntity.badRequest().build(); //Caso de erro retorna um BadREquest
+//		} 
+//		
+//	}
+	
+	@PostMapping //POST com ExceptionHandler
 	public ResponseEntity<?> saveCarro(@RequestBody Carro carro) {
 		
-		try {
+		
 			CarroDTO c = carroService.create(carro); //Manda o CArro para o service para ser criado
 			
 			URI location = getUri(c.getId()); //Executa o método URI mandando o ID do carro que foi criado
 			
 			return ResponseEntity.created(location).build(); // Passa o cod 201 CREATED com a localização de acesso (URL) no HEADER
-		}catch(Exception ex) {
-			return ResponseEntity.badRequest().build(); //Caso de erro retorna um BadREquest
-		} 
+		
 		
 	}
 	
@@ -98,13 +111,21 @@ public class CarroController {
 		
 	}
 	
+//	@DeleteMapping(value = "/{id}")
+//	public ResponseEntity<?> delete(@PathVariable int id){
+//		boolean ok = carroService.delete(id);
+//		
+//		return ok ? // Ok == true
+//				ResponseEntity.ok().build() : // Retorna 200 OK
+//				ResponseEntity.notFound().build(); //SENÃO retorna 404 NOT FOUND
+//	}
+	
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<?> delete(@PathVariable int id){
-		boolean ok = carroService.delete(id);
+			carroService.delete(id);
 		
-		return ok ? // Ok == true
-				ResponseEntity.ok().build() : // Retorna 200 OK
-				ResponseEntity.notFound().build(); //SENÃO retorna 404 NOT FOUND
+		return ResponseEntity.ok().build(); /// DELETE usando ExceptionHandler
+				
 	}
 	
 	

@@ -64,7 +64,6 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.18.16</version>
 			<scope>provided</scope>
 		</dependency>
 	
@@ -87,6 +86,12 @@
             <artifactId>springfox-swagger-ui</artifactId>
             <version>2.7.0</version>
             <scope>compile</scope>
+        </dependency>
+        
+            <!-- Security -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
         
 	</dependencies>

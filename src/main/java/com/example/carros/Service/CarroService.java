@@ -46,6 +46,7 @@ public class CarroService {
 //	}
 	
 	public CarroDTO create(Carro carro) {
+		//Assert.isNull(carro.getId(), "Erro");
 		
 		return CarroDTO.create(carroRepository.save(carro)); // Salva o carro no repositório
 		
@@ -84,15 +85,18 @@ public class CarroService {
 //		return "Carro de ID " + id + " deletado com sucesso!";
 //	}
 	
-	public boolean delete(int id) {
-		//Optional<Carro> carro = carroRepository.findById(id);
-		
-		if(carroRepository.findById(id).isPresent()) {
-			carroRepository.deleteById(id);
-			return true;
-		}else {
-			return false;
-		}
+//	public boolean delete(int id) {
+//		
+//		if(carroRepository.findById(id).isPresent()) {
+//			carroRepository.deleteById(id);
+//			return true;
+//		}else {
+//			return false;
+//		}
+//	}
+	
+	public void delete(int id) {
+		carroRepository.deleteById(id);	/// DELETE usando ExceptionHandler	
 	}
 		
 
