@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.carros.DTO.CarroDTO;
@@ -20,9 +21,11 @@ public class CarroService {
 	@Autowired
 	private CarroRepository carroRepository;
 	
-	public List<CarroDTO> getAllCarros(){
+	public List<CarroDTO> getAllCarros(Pageable pageable){
 		 
-		return this.carroRepository.findAll().stream().map(CarroDTO :: create).collect(Collectors.toList());
+		List<CarroDTO> list = this.carroRepository.findAll(pageable).stream().map(CarroDTO :: create).collect(Collectors.toList());
+		return list;
+		
 		//findAll() -- Retorna Lista de carros
 		//.stream() -- Chama para mapear a lista com o .map() que percorre todo o CarroDTO e cria NEW carros
 		//.colect(Collectors.toList()); -- Gera uma nova lista de CarrosDTO
@@ -35,8 +38,8 @@ public class CarroService {
 		//Retorna do DTO se existir, caso contrário manda um optional
 	}
 	
-	public List<CarroDTO> getCarroByTipo(String tipo){
-		return this.carroRepository.findAllByTipo(tipo).stream().map(CarroDTO :: create).collect(Collectors.toList());
+	public List<CarroDTO> getCarroByTipo(String tipo, Pageable pageable){
+		return this.carroRepository.findAllByTipo(tipo, pageable).stream().map(CarroDTO :: create).collect(Collectors.toList());
 	}
 
 //	public Carro create(Carro carro) {

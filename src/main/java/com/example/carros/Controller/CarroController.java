@@ -7,6 +7,7 @@ import java.util.Optional;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -34,8 +36,9 @@ public class CarroController {
 	private CarroService carroService;
 	
 	@GetMapping
-	public ResponseEntity<List<CarroDTO>> getCarro(){
-		return new ResponseEntity<>(carroService.getAllCarros(), HttpStatus.OK);
+	public ResponseEntity<List<CarroDTO>> getCarro(@RequestParam(value = "page", defaultValue="0") Integer page,
+												   @RequestParam(value="size", defaultValue="10")Integer size){
+		return new ResponseEntity<>(carroService.getAllCarros(PageRequest.of(page, size)), HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/{id}")
@@ -46,8 +49,10 @@ public class CarroController {
 	}
 	
 	@GetMapping(value = "/tipo/{tipo}")
-	public ResponseEntity <List<CarroDTO>>getCarroByTipo(@PathVariable("tipo") String tipo){
-		List<CarroDTO> carro = carroService.getCarroByTipo(tipo);
+	public ResponseEntity <List<CarroDTO>>getCarroByTipo(@PathVariable("tipo") String tipo,
+														 @RequestParam(value="page", defaultValue="0") Integer page,
+														 @RequestParam(value="size", defaultValue="10") Integer size){
+		List<CarroDTO> carro = carroService.getCarroByTipo(tipo, PageRequest.of(page, size));
 		
 		return carro.isEmpty() ? // SE a lista de carro estiver vazia ...
 				ResponseEntity.noContent().build() : // Retorne 204 NoContent
